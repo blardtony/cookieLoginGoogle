@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -45,5 +46,8 @@ class SecurityController extends AbstractController
       return new JsonResponse([
         'email' => $user->getEmail()
       ]);
+
+      $response->headers->setCookie(Cookie::create('foo', 'bar'));
+      return $response;
     }
 }
