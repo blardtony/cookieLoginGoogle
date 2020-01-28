@@ -46,15 +46,40 @@ class GoogleLoginAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $apiToken = $credentials['token'];
+        $idToken = $credentials['id_token'];
 
-        if (null === $apiToken) {
+        if (null === $idToken) {
             return;
         }
 
-        // if a User object, checkCredentials() is called
-        return $this->em->getRepository(User::class)
-            ->findOneBy(['apiToken' => $apiToken]);
+        $client = new \Google_Client([
+          'client_id' => $_ENV['GOOGLE_CLIENT_ID']
+        ]);  // Specify the CLIENT_ID of the app that accesses the backend
+
+
+        try {
+          $payload = $client->verifyIdToken($idToken);
+        } catch (\Exception $e) {
+          return;
+        }
+
+        $user = $this->em->getRepository(User::class)->findOneBy(['googleId' => $payload['sub']]);
+
+        if (!$user) {
+          $user = $this->em->getRepository(User::class)->findOneBy(['email' => $payload['email']]);
+          if (!$user) {
+            $user = new User();
+            $user->setEmail($payload['email']);
+          }
+          $user->setGoogleId($payload['sub']);
+          $this->em->persist($user);
+          $this->em->flush();
+        }
+
+        dump($user);
+        die;
+
+        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
