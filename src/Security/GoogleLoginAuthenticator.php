@@ -76,9 +76,6 @@ class GoogleLoginAuthenticator extends AbstractGuardAuthenticator
           $this->em->flush();
         }
 
-        dump($user);
-        die;
-
         return $user;
     }
 
