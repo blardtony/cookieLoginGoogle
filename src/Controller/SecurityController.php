@@ -43,11 +43,19 @@ class SecurityController extends AbstractController
     {
       $user = $this->getUser();
 
-      return new JsonResponse([
+       $response = new JsonResponse([
         'email' => $user->getEmail()
       ]);
 
-      $response->headers->setCookie(Cookie::create('foo', 'bar'));
+      $response->headers->setCookie(Cookie::create(
+        'GOOGLE_ID', //name 
+        $user->getGoogleId(), // value
+        time() + 365 * 24 * 3600, //expire
+        '/', //path
+        null, //domain
+        null, //secure
+        false //httpOnly
+      ));
       return $response;
     }
 }
