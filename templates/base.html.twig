@@ -2,7 +2,7 @@
 <html>
     <head>
       <meta charset="UTF-8">
-      <meta name="google-signin-client_id" content="722681188597-aucdg9ip8p7d34ag5dee03aurrdvti4q.apps.googleusercontent.com">
+      <meta name="google-signin-client_id" content="38610440617-eunvajs3hn090h8j9t6moud444hnf9pf.apps.googleusercontent.com">
       <title>{% block title %}Welcome!{% endblock %}</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
       {% block stylesheets %}{% endblock %}
@@ -30,7 +30,7 @@
         return "";
       }
       const googleId = getCookie('GOOGLE_ID')
-      
+
         function onSignIn(googleUser) {
           var profile = googleUser.getBasicProfile();
           var id_token = googleUser.getAuthResponse().id_token;
